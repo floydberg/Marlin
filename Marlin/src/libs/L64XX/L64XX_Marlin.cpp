@@ -368,12 +368,12 @@ void L64XX_Marlin::set_param(const L64XX_axis_t axis, const uint8_t param, const
   }
 }
 
-inline void echo_min_max(const char a, const float &min, const float &max) {
+inline void echo_min_max(const char a, const_float_t min, const_float_t max) {
   DEBUG_CHAR(' '); DEBUG_CHAR(a);
   DEBUG_ECHOPAIR(" min = ", min);
   DEBUG_ECHOLNPAIR("  max = ", max);
 }
-inline void echo_oct_used(const float &oct, const uint8_t stall) {
+inline void echo_oct_used(const_float_t oct, const uint8_t stall) {
   DEBUG_ECHOPAIR("over_current_threshold used     : ", oct);
   DEBUG_ECHOPGM_P(stall ? PSTR("  (Stall") : PSTR("  (OCD"));
   DEBUG_ECHOLNPGM(" threshold)");
@@ -395,7 +395,7 @@ uint8_t L64XX_Marlin::get_user_input(uint8_t &driver_count, L64XX_axis_t axis_in
   }
 
   uint8_t found_displacement = false;
-  LOOP_XYZE(i) if (uint16_t _displacement = parser.intval(axis_codes[i])) {
+  LOOP_LOGICAL_AXES(i) if (uint16_t _displacement = parser.intval(axis_codes[i])) {
     found_displacement = true;
     displacement = _displacement;
     uint8_t axis_offset = parser.byteval('J');
