@@ -337,7 +337,7 @@ class Planner {
       static xyze_bool_t last_page_dir;             // Last page direction given
     #endif
 
-    #if EXTRUDERS
+    #if HAS_EXTRUDERS
       static int16_t flow_percentage[EXTRUDERS];    // Extrusion factor for each extruder
       static float e_factor[EXTRUDERS];             // The flow percentage and volumetric multiplier combine to scale E movement
     #endif
@@ -491,10 +491,10 @@ class Planner {
     #if HAS_CLASSIC_JERK
       static void set_max_jerk(const AxisEnum axis, float inMaxJerkMMS);
     #else
-      static inline void set_max_jerk(const AxisEnum, const_float_t ) {}
+      static inline void set_max_jerk(const AxisEnum, const_float_t) {}
     #endif
 
-    #if EXTRUDERS
+    #if HAS_EXTRUDERS
       FORCE_INLINE static void refresh_e_factor(const uint8_t e) {
         e_factor[e] = flow_percentage[e] * 0.01f * TERN(NO_VOLUMETRICS, 1.0f, volumetric_multiplier[e]);
       }
@@ -592,9 +592,9 @@ class Planner {
 
     #else
 
-      FORCE_INLINE static float fade_scaling_factor_for_z(const_float_t ) { return 1; }
+      FORCE_INLINE static float fade_scaling_factor_for_z(const_float_t) { return 1; }
 
-      FORCE_INLINE static bool leveling_active_at_z(const_float_t ) { return true; }
+      FORCE_INLINE static bool leveling_active_at_z(const_float_t) { return true; }
 
     #endif
 
