@@ -20,7 +20,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
-#if defined(ARDUINO_ARCH_STM32) && !defined(STM32GENERIC)
+#if defined(ARDUINO_ARCH_STM32) && !defined(STM32GENERIC) && !defined(MAPLE_STM32F1)
 
 #include "../../inc/MarlinConfig.h"
 
@@ -104,6 +104,8 @@ size_t PersistentStore::capacity() { return MARLIN_EEPROM_SIZE; }
 
 bool PersistentStore::access_start() {
 
+  EEPROM.begin(); // Avoid STM32 EEPROM.h warning (do nothing)
+
   #if ENABLED(FLASH_EEPROM_LEVELING)
 
     if (current_slot == -1 || eeprom_data_written) {
@@ -121,7 +123,7 @@ bool PersistentStore::access_start() {
         address += sizeof(uint32_t);
       }
       if (current_slot == -1) {
-        // We didn't find anything, so we'll just intialize to empty
+        // We didn't find anything, so we'll just initialize to empty
         for (int i = 0; i < MARLIN_EEPROM_SIZE; i++) ram_eeprom[i] = EMPTY_UINT8;
         current_slot = EEPROM_SLOTS;
       }
@@ -270,4 +272,4 @@ bool PersistentStore::read_data(int &pos, uint8_t *value, size_t size, uint16_t 
 }
 
 #endif // FLASH_EEPROM_EMULATION
-#endif // ARDUINO_ARCH_STM32 && !STM32GENERIC
+#endif // ARDUINO_ARCH_STM32 && !STM32GENERIC && !MAPLE_STM32F1
