@@ -47,11 +47,10 @@
   #define FLASH_EEPROM_LEVELING
 #endif
 
-// USB Flash Drive support
-#define HAS_OTG_USB_HOST_SUPPORT
+#define HAS_OTG_USB_HOST_SUPPORT                  // USB Flash Drive support
 
 // Avoid conflict with TIMER_TONE
-#define STEP_TIMER                            10
+#define STEP_TIMER 10
 
 //
 // Servos
@@ -131,6 +130,15 @@
 //
 #ifndef Z_MIN_PROBE_PIN
   #define Z_MIN_PROBE_PIN                   PE4
+#endif
+
+//
+// Probe enable
+//
+#if ENABLED(PROBE_ENABLE_DISABLE)
+  #ifndef PROBE_ENABLE_PIN
+    #define PROBE_ENABLE_PIN          SERVO0_PIN
+  #endif
 #endif
 
 //
